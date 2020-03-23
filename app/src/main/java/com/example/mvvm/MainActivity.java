@@ -1,7 +1,6 @@
 package com.example.mvvm;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
@@ -12,13 +11,13 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.mvvm.databinding.ActivityMainBinding;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
+import com.google.gson.Gson;
 
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 
-import cz.msebera.android.httpclient.Header;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
     private MainViewModel viewModel;
@@ -54,47 +53,52 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.addHeader("Accept", "application/vnd.github.v3+json");
-        client.addHeader("Content-type", "application/json;charset=utf-8");
-//        client.addHeader("Authorization", "key=" + "xxxxxxxxxxxx");
-//        RequestParams params = new RequestParams();
-//        params.put("since", "0");
-        client.get("https://api.github.com/users", new AsyncHttpResponseHandler() {
+        new LoadUserData().start();
+    }
 
-            @Override
-            public void onStart() {
-                // called before request is started
+    class LoadUserData extends Thread {
+        String path_json = "https://api.github.com/users";
+        String result_json = null;
+
+        OkHttpClient client = new OkHttpClient();
+
+        String run(String url) throws IOException {
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            if (response.body() != null) {
+                return response.body().string();
+            } else {
+                return null;
             }
+        }
 
+        Runnable task = new Runnable() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                // called when response HTTP status is "200 OK"
-                try {
-                    String content = new String(response, "UTF-8");
+            public void run() {
+                Gson gson = new Gson();
+                UserInfo[] userInfos = gson.fromJson(result_json, UserInfo[].class);
 
-                    if (!TextUtils.isEmpty(content)) {
-
-                    }
-                } catch (UnsupportedEncodingException e1) {
-                    e1.printStackTrace();
+                StringBuilder sb = new StringBuilder();
+                for (UserInfo userInfo : userInfos) {
+                    sb.append("Login:").append(userInfo.getLogin()).append(" ")
+                            .append("AvatarUrl:").append(userInfo.getAvatarUrl()).append(" ");
                 }
             }
+        };
 
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-                if (statusCode != 200) {
-                    if (errorResponse != null) {
-
-                    }
-                }
+        @Override
+        public void run() {
+            try {
+                result_json = run(path_json);
+                runOnUiThread(task);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
-            @Override
-            public void onRetry(int retryNo) {
-                // called when request is retried
-            }
-        });
+        }
+
     }
 }
