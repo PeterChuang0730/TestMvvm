@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     class LoadUserData extends Thread {
-        String path_json = "https://api.github.com/users?since=0";
+        String path_json = "https://api.github.com/users?since=0&per_page=100";
         String result_json = null;
 
         OkHttpClient client = new OkHttpClient();
