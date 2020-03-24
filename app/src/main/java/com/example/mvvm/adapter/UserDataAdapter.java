@@ -50,7 +50,7 @@ public class UserDataAdapter extends RecyclerView.Adapter<UserDataAdapter.UserVi
 
         private UserListItemBinding userListItemBinding;
 
-        public UserViewHolder(@NonNull UserListItemBinding userListItemBinding) {
+        UserViewHolder(@NonNull UserListItemBinding userListItemBinding) {
             super(userListItemBinding.getRoot());
 
             this.userListItemBinding = userListItemBinding;

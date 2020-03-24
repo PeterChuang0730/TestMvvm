@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -27,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private MainViewModel viewModel;
     private UserDataAdapter userDataAdapter;
     private ArrayList<User> users = new ArrayList<>();
-    private ActivityMainBinding activityMainBinding;
+
+    ActivityMainBinding activityMainBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         // bind RecyclerView
-        RecyclerView recyclerView = activityMainBinding.viewEmployees;
+        RecyclerView recyclerView = activityMainBinding.viewUsers;
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
 
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     class LoadUserData extends Thread {
-        String path_json = "https://api.github.com/users";
+        String path_json = "https://api.github.com/users?since=0";
         String result_json = null;
 
         OkHttpClient client = new OkHttpClient();
@@ -81,11 +83,12 @@ public class MainActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 User[] userIfs = gson.fromJson(result_json, User[].class);
 
-                for (User userInfo : userIfs) {
-                    users.add(userInfo);
-                }
+                Collections.addAll(users, userIfs);
 
                 userDataAdapter.setUserList(users);
+
+                activityMainBinding.tvMain.setText(String.format(getString(R.string.show_number),
+                        users.size()));
             }
         };
 
