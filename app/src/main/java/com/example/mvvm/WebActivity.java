@@ -17,7 +17,7 @@ public class WebActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String userHtml = intent.getStringExtra("html_url");
 
-        WebView webview = (WebView) findViewById(R.id.web_view);
+        WebView webview = findViewById(R.id.web_view);
         webview.getSettings().setJavaScriptEnabled(true);
         webview.loadUrl(userHtml);
     }

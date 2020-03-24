@@ -37,7 +37,6 @@ public class UserDataAdapter extends RecyclerView.Adapter<UserDataAdapter.UserVi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(v.getContext(), "onclick" + position, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(v.getContext(), WebActivity.class);
                 intent.putExtra("html_url", currentUser.getHtmlUrl());
                 v.getContext().startActivity(intent);
