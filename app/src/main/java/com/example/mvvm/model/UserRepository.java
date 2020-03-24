@@ -23,19 +23,23 @@ public class UserRepository {
 
         final UserDataService userDataService = RetrofitClient.getService();
 
-        Call<UserDBResponse> call = userDataService.getUsers();
-        call.enqueue(new Callback<UserDBResponse>() {
+        Call<List<User>> call = userDataService.getUsers();
+        call.enqueue(new Callback<List<User>>() {
             @Override
-            public void onResponse(Call<UserDBResponse> call, Response<UserDBResponse> response) {
-                UserDBResponse userDBResponse = response.body();
-                if (userDBResponse != null && userDBResponse.getUser() != null) {
-                    users = (ArrayList<User>) userDBResponse.getUser();
+            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+                List<User> users = response.body();
+                if (users != null) {
                     mutableLiveData.setValue(users);
                 }
             }
 
             @Override
-            public void onFailure(Call<UserDBResponse> call, Throwable t) {
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                String aaa = call.toString();
+
+                if (aaa != null) {
+
+                }
             }
         });
 
