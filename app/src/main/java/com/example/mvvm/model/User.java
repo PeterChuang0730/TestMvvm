@@ -15,6 +15,8 @@ public class User {
     private String login;
     @SerializedName("avatar_url")
     private String avatar_url;
+    @SerializedName("html_url")
+    private String html_url;
     @SerializedName("site_admin")
     private boolean site_admin;
 
@@ -28,6 +30,10 @@ public class User {
 
     public String getAvatarUrl() {
         return avatar_url;
+    }
+
+    public String getHtmlUrl() {
+        return html_url;
     }
 
     public boolean getSiteAdmin() {

@@ -1,6 +1,8 @@
 package com.example.mvvm.adapter;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -8,6 +10,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mvvm.R;
+import com.example.mvvm.WebActivity;
 import com.example.mvvm.databinding.UserListItemBinding;
 import com.example.mvvm.model.User;
 
@@ -27,9 +30,19 @@ public class UserDataAdapter extends RecyclerView.Adapter<UserDataAdapter.UserVi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
-        User currentUser = users.get(position);
+    public void onBindViewHolder(@NonNull final UserViewHolder holder, final int position) {
+        final User currentUser = users.get(position);
         holder.userListItemBinding.setUser(currentUser);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Toast.makeText(v.getContext(), "onclick" + position, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(v.getContext(), WebActivity.class);
+                intent.putExtra("html_url", currentUser.getHtmlUrl());
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
