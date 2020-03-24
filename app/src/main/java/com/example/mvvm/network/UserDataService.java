@@ -8,6 +8,6 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface UserDataService {
-    @GET("users")
+    @GET("users?since=0&per_page=100")
     Call<List<User>> getUsers();
 }

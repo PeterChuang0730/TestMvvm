@@ -35,11 +35,6 @@ public class UserRepository {
 
             @Override
             public void onFailure(Call<List<User>> call, Throwable t) {
-                String aaa = call.toString();
-
-                if (aaa != null) {
-
-                }
             }
         });
 

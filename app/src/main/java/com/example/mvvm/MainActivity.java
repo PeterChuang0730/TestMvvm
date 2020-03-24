@@ -20,7 +20,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private MainViewModel viewModel;
     private UserDataAdapter userDataAdapter;
-    private ArrayList<User> users = new ArrayList<>();
 
     ActivityMainBinding activityMainBinding;
 
@@ -46,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable List<User> users) {
                 userDataAdapter.setUserList((ArrayList<User>) users);
+
+                activityMainBinding.tvMain.setText(String.format(getString(R.string.show_number),
+                        users.size()));
             }
         });
     }
