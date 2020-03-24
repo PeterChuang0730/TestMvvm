@@ -1,19 +1,23 @@
 package com.example.mvvm;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mvvm.adapter.UserDataAdapter;
 import com.example.mvvm.databinding.ActivityMainBinding;
+import com.example.mvvm.model.User;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -21,39 +25,34 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
     private MainViewModel viewModel;
+    private UserDataAdapter userDataAdapter;
 
-    private ActivityMainBinding binding;
+    private ActivityMainBinding activityMainBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
+        // bind RecyclerView
+        RecyclerView recyclerView = activityMainBinding.viewEmployees;
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+
         viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        binding.setViewModel(viewModel);
+        userDataAdapter = new UserDataAdapter();
+        recyclerView.setAdapter(userDataAdapter);
+        getAllUser();
+    }
 
-        binding.btnRefresh.setOnClickListener(new View.OnClickListener() {
+    private void getAllUser() {
+        viewModel.getAllUser().observe(this, new Observer<List<User>>() {
             @Override
-            public void onClick(View view) {
-                viewModel.refresh();
+            public void onChanged(@Nullable List<User> users) {
+                userDataAdapter.setUserList((ArrayList<User>) users);
             }
         });
-
-        viewModel.mData.observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String data) {
-                binding.txtHelloWord.setText(data);
-            }
-        });
-
-        viewModel.toastText.observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String text) {
-                Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        new LoadUserData().start();
     }
 
     class LoadUserData extends Thread {
@@ -79,10 +78,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 Gson gson = new Gson();
-                UserInfo[] userInfos = gson.fromJson(result_json, UserInfo[].class);
+                User[] userIfs = gson.fromJson(result_json, User[].class);
 
                 StringBuilder sb = new StringBuilder();
-                for (UserInfo userInfo : userInfos) {
+                for (User userInfo : userIfs) {
                     sb.append("Login:").append(userInfo.getLogin()).append(" ")
                             .append("AvatarUrl:").append(userInfo.getAvatarUrl()).append(" ");
                 }
