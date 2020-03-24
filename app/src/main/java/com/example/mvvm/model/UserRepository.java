@@ -13,8 +13,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UserRepository {
-    private static final String TAG = "EmployeeRepository";
-    private ArrayList<User> employees = new ArrayList<>();
+    private ArrayList<User> users = new ArrayList<>();
     private MutableLiveData<List<User>> mutableLiveData = new MutableLiveData<>();
 
     public UserRepository() {
@@ -24,14 +23,14 @@ public class UserRepository {
 
         final UserDataService userDataService = RetrofitClient.getService();
 
-        Call<UserDBResponse> call = userDataService.getEmployees();
+        Call<UserDBResponse> call = userDataService.getUsers();
         call.enqueue(new Callback<UserDBResponse>() {
             @Override
             public void onResponse(Call<UserDBResponse> call, Response<UserDBResponse> response) {
-                UserDBResponse employeeDBResponse = response.body();
-                if (employeeDBResponse != null && employeeDBResponse.getEmployee() != null) {
-                    employees = (ArrayList<User>) employeeDBResponse.getEmployee();
-                    mutableLiveData.setValue(employees);
+                UserDBResponse userDBResponse = response.body();
+                if (userDBResponse != null && userDBResponse.getUser() != null) {
+                    users = (ArrayList<User>) userDBResponse.getUser();
+                    mutableLiveData.setValue(users);
                 }
             }
 

@@ -6,6 +6,6 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface UserDataService {
-    @GET("users/?per_page=12&amp;page=1")
-    Call<UserDBResponse> getEmployees();
+    @GET("users/?since=0")
+    Call<UserDBResponse> getUsers();
 }

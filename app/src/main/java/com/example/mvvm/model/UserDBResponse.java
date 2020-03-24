@@ -6,59 +6,36 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class UserDBResponse {
-  @SerializedName("page")
+  @SerializedName("login")
   @Expose
-  private Integer page;
-  @SerializedName("per_page")
+  private String login;
+  @SerializedName("avatar_url")
   @Expose
-  private Integer perPage;
-  @SerializedName("total")
+  private String avatar_url;
+  @SerializedName("site_admin")
   @Expose
-  private Integer total;
-  @SerializedName("total_pages")
-  @Expose
-  private Integer totalPages;
+  private boolean site_admin;
   @SerializedName("data")
   @Expose
-  private List<User> employee = null;
+  private List<User> user = null;
 
-  public Integer getPage() {
-    return page;
+  public String getLogin() {
+    return login;
   }
 
-  public void setPage(Integer page) {
-    this.page = page;
+  public String getAvatar() {
+    return avatar_url;
   }
 
-  public Integer getPerPage() {
-    return perPage;
+  public boolean getSiteAdmin() {
+    return site_admin;
   }
 
-  public void setPerPage(Integer perPage) {
-    this.perPage = perPage;
+  public List<User> getUser() {
+    return user;
   }
 
-  public Integer getTotal() {
-    return total;
-  }
-
-  public void setTotal(Integer total) {
-    this.total = total;
-  }
-
-  public Integer getTotalPages() {
-    return totalPages;
-  }
-
-  public void setTotalPages(Integer totalPages) {
-    this.totalPages = totalPages;
-  }
-
-  public List<User> getEmployee() {
-    return employee;
-  }
-
-  public void setEmployee(List<User> employee) {
-    this.employee = employee;
+  public void setEmployee(List<User> user) {
+    this.user = user;
   }
 }

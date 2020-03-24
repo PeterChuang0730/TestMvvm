@@ -26,7 +26,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
     private MainViewModel viewModel;
     private UserDataAdapter userDataAdapter;
-
+    private ArrayList<User> users = new ArrayList<>();
     private ActivityMainBinding activityMainBinding;
 
     @Override
@@ -43,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         userDataAdapter = new UserDataAdapter();
         recyclerView.setAdapter(userDataAdapter);
-        getAllUser();
+        //getAllUser();
+        new LoadUserData().start();
     }
 
     private void getAllUser() {
@@ -80,11 +81,11 @@ public class MainActivity extends AppCompatActivity {
                 Gson gson = new Gson();
                 User[] userIfs = gson.fromJson(result_json, User[].class);
 
-                StringBuilder sb = new StringBuilder();
                 for (User userInfo : userIfs) {
-                    sb.append("Login:").append(userInfo.getLogin()).append(" ")
-                            .append("AvatarUrl:").append(userInfo.getAvatarUrl()).append(" ");
+                    users.add(userInfo);
                 }
+
+                userDataAdapter.setUserList(users);
             }
         };
 
