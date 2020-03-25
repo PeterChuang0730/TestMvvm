@@ -46,8 +46,10 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(@Nullable List<User> users) {
                 userDataAdapter.setUserList((ArrayList<User>) users);
 
-                activityMainBinding.tvMain.setText(String.format(getString(R.string.show_number),
-                        users.size()));
+                if (users != null) {
+                    activityMainBinding.tvMain.setText(String.format(getString(R.string.show_number),
+                            users.size()));
+                }
             }
         });
     }

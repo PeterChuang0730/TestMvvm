@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.mvvm.network.RetrofitClient;
 import com.example.mvvm.network.UserDataService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -13,7 +12,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UserRepository {
-    private ArrayList<User> users = new ArrayList<>();
     private MutableLiveData<List<User>> mutableLiveData = new MutableLiveData<>();
 
     public UserRepository() {
