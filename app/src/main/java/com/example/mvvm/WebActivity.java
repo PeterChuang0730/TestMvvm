@@ -24,7 +24,8 @@ public class WebActivity extends AppCompatActivity {
                 R.layout.activity_webview);
 
         Gson gson = new Gson();
-        User currentUser = gson.fromJson(getIntent().getStringExtra("currentUser"), User.class);
+        User currentUser = gson.fromJson(getIntent().getStringExtra("currentUser"),
+                User.class);
 
         if (currentUser != null) {
             String userHtml = currentUser.getHtmlUrl();

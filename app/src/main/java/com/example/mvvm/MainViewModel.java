@@ -11,7 +11,11 @@ import java.util.List;
 public class MainViewModel extends ViewModel {
     private UserRepository userRepository = new UserRepository();
 
-    public LiveData<List<User>> getAllUser() {
+    public MainViewModel() {
+        super();
+    }
+
+    LiveData<List<User>> getAllUser() {
         return userRepository.getMutableLiveData();
     }
 }

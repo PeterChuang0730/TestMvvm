@@ -1,5 +1,6 @@
 package com.example.mvvm.model;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.mvvm.network.RetrofitClient;
@@ -24,7 +25,8 @@ public class UserRepository {
         Call<List<User>> call = userDataService.getUsers();
         call.enqueue(new Callback<List<User>>() {
             @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+            public void onResponse(@NonNull Call<List<User>> call, @NonNull Response<List<User>>
+                    response) {
                 List<User> users = response.body();
                 if (users != null) {
                     mutableLiveData.setValue(users);
@@ -32,7 +34,7 @@ public class UserRepository {
             }
 
             @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<User>> call, @NonNull Throwable t) {
             }
         });
 
