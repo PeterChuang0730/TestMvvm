@@ -31,7 +31,7 @@ public class ProgressWebView extends WebView {
     private void initProgressBar(Context context) {
         progressbar = new ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal);
         progressbar.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
-                dp2px(context, 10), 0, 0));
+                dp2px(context, 5), 0, 0));
 
         progressbar.setProgressDrawable(new ClipDrawable(new ColorDrawable(Color.RED),
                 Gravity.LEFT, ClipDrawable.HORIZONTAL));

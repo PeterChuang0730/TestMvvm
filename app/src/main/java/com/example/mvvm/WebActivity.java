@@ -1,7 +1,6 @@
 package com.example.mvvm;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.webkit.WebSettings;
@@ -10,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.example.mvvm.databinding.ActivityWebviewBinding;
+import com.example.mvvm.model.User;
+import com.google.gson.Gson;
 
 public class WebActivity extends AppCompatActivity {
     ActivityWebviewBinding activityWebviewBinding;
@@ -22,12 +23,16 @@ public class WebActivity extends AppCompatActivity {
         activityWebviewBinding = DataBindingUtil.setContentView(this,
                 R.layout.activity_webview);
 
-        Intent intent = getIntent();
-        String userHtml = intent.getStringExtra("html_url");
+        Gson gson = new Gson();
+        User currentUser = gson.fromJson(getIntent().getStringExtra("currentUser"), User.class);
 
-        openJavaScript();
+        if (currentUser != null) {
+            String userHtml = currentUser.getHtmlUrl();
 
-        activityWebviewBinding.webView.loadUrl(userHtml);
+            openJavaScript();
+
+            activityWebviewBinding.webView.loadUrl(userHtml);
+        }
     }
 
     @SuppressLint("SetJavaScriptEnabled")

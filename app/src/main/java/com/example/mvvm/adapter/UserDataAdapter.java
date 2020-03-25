@@ -13,6 +13,7 @@ import com.example.mvvm.R;
 import com.example.mvvm.WebActivity;
 import com.example.mvvm.databinding.UserListItemBinding;
 import com.example.mvvm.model.User;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -37,8 +38,11 @@ public class UserDataAdapter extends RecyclerView.Adapter<UserDataAdapter.UserVi
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Gson gson = new Gson();
+                String myJson = gson.toJson(currentUser);
+
                 Intent intent = new Intent(v.getContext(), WebActivity.class);
-                intent.putExtra("html_url", currentUser.getHtmlUrl());
+                intent.putExtra("currentUser", myJson);
                 v.getContext().startActivity(intent);
             }
         });

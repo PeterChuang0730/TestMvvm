@@ -29,14 +29,14 @@ public class MainActivity extends AppCompatActivity {
 
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        // bind RecyclerView
+        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        userDataAdapter = new UserDataAdapter();
+
         RecyclerView recyclerView = activityMainBinding.viewUsers;
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
-
-        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        userDataAdapter = new UserDataAdapter();
         recyclerView.setAdapter(userDataAdapter);
+
         getAllUser();
     }
 
